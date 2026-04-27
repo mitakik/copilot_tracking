@@ -149,21 +149,8 @@ py -3 .\copilot_tracking.py clear --yes
 
 これで SQLite DB と、残っている OTel JSONL をまとめて削除します。
 
-## エイリアス化して「copilot」で使う
 
-### bash / zsh
 
-```bash
-alias copilot="$PWD/copilot-track.sh"
-```
-
-### PowerShell
-
-```powershell
-function copilot { & "C:\path\to\copilot-tracking\copilot-track.ps1" @args }
-```
-
-これで普段どおり `copilot` と打つだけで記録されます。
 
 
 ## 特定プロジェクトの設定を読み込んだ状態で本ツールを起動する
@@ -237,6 +224,55 @@ python3 copilot_tracking.py ingest \
 ```
 
 
+## PowerShell スクリプトが実行できない場合 
+
+Windowsでは実行ポリシーにより `.ps1` ファイルの実行がブロックされる場合があります。以下のいずれかの方法で解決してください。
+
+**方法①：ファイルのブロック解除（管理者権限不要・推奨）**
+
+インターネットからダウンロードしたファイルにはWindowsがブロックマークを付けます。以下のコマンドで解除できます。
+
+```powershell
+Unblock-File -Path "C:\path\to\copilot-tracking\src\copilot_tracking.ps1"
+Unblock-File -Path "C:\path\to\copilot-tracking\src\copilot-track.ps1"
+```
+
+この変更は永続的です。ただしファイルを再ダウンロード・更新した場合は再度実行が必要です。
+
+**方法②：実行ポリシーの変更（管理者権限不要）**
+
+現在のユーザーに対してのみ実行ポリシーを変更します。
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+設定を確認するには：
+
+```powershell
+Get-ExecutionPolicy -List
+```
+
+> `RemoteSigned` はローカルで作成されたスクリプトはそのまま実行でき、インターネットからダウンロードしたスクリプトは署名が必要になるポリシーです。
+
+
+
+## エイリアス化して「copilot」で使う
+### bash / zsh
+
+```bash
+alias copilot="$PWD/copilot-track.sh"
+```
+
+### PowerShell
+
+```powershell
+function copilot { & "C:\path\to\copilot-tracking\copilot-track.ps1" @args }
+```
+
+これで普段どおり `copilot` と打つだけで記録されます。
+
+
 ## 補足
 
 - `same_sess=yes` は、その prompt より前に同じ `session_id` の turn が既にあることを表します。`session_id` は 1 回の `wrap` 実行単位です。
@@ -249,3 +285,5 @@ python3 copilot_tracking.py ingest \
 - 記録された SQLite DB は、VSCode の [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer) などのプラグインを使って任意に参照・抽出することを想定しています。
 
   ![VSCode SQLite Viewer でDBを閲覧している例](docs/images/vscode-sqlite-viewer.png)
+
+
