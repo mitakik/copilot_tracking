@@ -166,6 +166,31 @@ function copilot { & "C:\path\to\copilot-tracking\copilot-track.ps1" @args }
 これで普段どおり `copilot` と打つだけで記録されます。
 
 
+## 特定プロジェクトの設定を読み込んだ状態で本ツールを起動する
+
+プロジェクト固有の指示ファイル（`CLAUDE.md` など）を読み込ませつつトラッキングを有効にしたい場合は、`-C` オプションで作業ディレクトリを指定します。
+
+```bash
+python3 /path/to/copilot_tracking.py wrap -C /path/to/your-project
+```
+
+シェルスクリプトを使う場合は、起動前にプロジェクトディレクトリへ移動します。
+
+```bash
+cd /path/to/your-project
+/path/to/copilot-track.sh
+```
+
+`CLAUDE.md` などはセッション開始時のカレントディレクトリから読み込まれます。セッション開始後に `/cwd` コマンドで移動した場合も読み込まれますが、**起動時から正しいディレクトリを指定するのが確実**です。
+
+例）
+BoReborn/migration_agent固有のskillなどを読み込ませつつ、copilot-trackingツールを利用する例です
+```bash
+mitakik@W23R0212:~/systems/BoReborn/migration_agent$ /home/mitakik/systems/copilot_tracking/src/copilot-track.sh
+```
+
+
+
 ## 主なコマンド
 
 ### 追跡付きで起動
