@@ -231,9 +231,9 @@ python3 copilot_tracking.py ingest \
 - 既存の SQLite に `account` 列が足りない、または過去データの account が空の場合は、起動時に自動でマイグレーションし、保存済み `raw_json` / 残っている OTel JSONL から補完できる範囲で復元します。
 - OTel JSONL は CLI バージョンにより `resourceSpans` 形式と 1 行 1 span 形式の両方があるため、このスクリプトはどちらも取り込めます。
 - prompt / response を保存するため、ログと DB に機密情報が残る可能性があります。必要なら `--no-capture-content` を使ってください。
-- 記録された SQLite DB は、VSCode の [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer) などのプラグインを使って任意に参照・抽出することを想定しています。
+- 記録された SQLite DB は、VSCode の [vscode-sqlite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite) などのプラグインを使って任意に参照・SQL実行・抽出することを想定しています。
 
-  ![VSCode SQLite Viewer でDBを閲覧している例](docs/images/vscode-sqlite-viewer.png)
+  ![VSCode vscode-sqlite でDBを閲覧している例](docs/images/vscode-sqlite-viewer.png)
 
 
 
